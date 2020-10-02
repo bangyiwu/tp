@@ -236,35 +236,27 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts and events
-* requires seamless integration between contact and event tracking (vastly differing participants for different events, for instance)
+* has a need to manage a significant number of contacts
 * prefer desktop apps over other types
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: manage contacts and events faster than a typical mouse/GUI driven app
+**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                  | I want to …​                       | So that I can…​                                                                                        |
-| -------- | ------------------------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `* * *`  | new user                                    | see usage instructions                | understand how to get started by adding new contacts, removing sample ones and learning advanced commands |
-| `* * *`  | user                                        | add a new contact                     | keep track of my contacts                                                                                 |
-| `* * *`  | user                                        | delete a contact                      | remove contacts that I no longer need, keeping my contact storage neat and uncluttered                    |
-| `* * *`  | user                                        | view my contacts in an ordered manner | view the details of my contacts                                                                           |
-| `* * *`  | user                                        | add a new event                       | keep track of my events                                                                                   |
-| `* * *`  | user                                        | delete an event                       | remove events that I no longer need, keeping my event storage neat and uncluttered                        |
-| `* * *`  | user                                        | view my events in an ordered manner   | view the details of my events                                                                             |
-| `* *`    | user                                        | search for a contact                  | locate details of contacts without having to go through the entire list                                   |
-| `* *`    | user                                        | edit a contact's details              | change outdated information without having to delete and re-add contacts                                  |
-| `* *`    | user with many contacts in the address book | sort contacts by name                 | so that I can view my contacts in a more consistent manner and find the contacts I want quickly           |
-| `* *`    | user                                        | search for an event                   | locate details of events without having to go through the entire list                                     |
-| `* *`    | user                                        | edit an event's details               | change outdated information without having to delete and re-add events                                    |
-| `* *`    | user with many events in the address book   | sort events by name                   | so that I can view my events in a more consistent manner and find the events I want quickly               |
+| Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
+| -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
+| `* * *`  | new user                                   | see usage instructions         | refer to instructions when I forget how to use the App                 |
+| `* * *`  | user                                       | add a new person               |                                                                        |
+| `* * *`  | user                                       | delete a person                | remove entries that I no longer need                                   |
+| `* * *`  | user                                       | find a person by name          | locate details of persons without having to go through the entire list |
+| `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
+| `*`      | user with many persons in the address book | sort persons by name           | locate a person easily                                                 |
 
 *{More to be added}*
 
@@ -284,18 +276,29 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 1a. User input missing one or multiple fields
     * 2a1. Athena shows an error message.
-
-  Use case ends.
+      
 **Use case: Delete a contact**
 
 **MSS**
 
 1.  User requests to list contacts
-Athena shows a list of contacts
+2.  Athena shows a list of contacts
 3.  User requests to delete a specific contact in the list
 4.  Athena deletes the contact
 
     Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. Athena shows an error message.
+
+      Use case resumes at step 2.
       
 **Use case: Sort through contacts**
 
@@ -310,51 +313,16 @@ Athena shows a list of contacts
 
 **Extensions**
 
+* 1a. The given index is invalid.
+
+    * 3a1. AddressBook shows an error message.
+
+      Use case resumes at step 2.
+
 * 2a. The list is empty.
 
   Use case ends.
 
-* 3a. The given index is invalid.
-
-    * 3a1. Athena shows an error message.
-
-      Use case resumes at step 2.
-      
-**Use case: Editing contact information**
-
-Preconditions: The contact the user wishes to edit is displayed on the UI.
-
-**MSS**
-
-1.  User uses the edit command to inform the system of which fields of the contact they wish to change.
-2.  Athena updates the contact information.
-3.  Athena sends an acknowledgement message to the user to notify of the edits made.
-
-    Use case ends.
-
-**Extensions**
-
-* 1a. Tag to be removed does not exist.
-    * 1a1. Athena notifies the user of the error.
-    * 1a2. Athena aborts the command without making changes.
-    
-      Use case ends.
-     
-**Use case: Searching for contacts**
-
-**MSS**
-
-1. User uses the find command and informs the systems of keywords and additional fields the contact has to match.
-2. Athena displays a list of contacts that matches the keywords and contains the additional fields.
-
-    Use case ends.
-
-**Extensions**
-
-* 2a. The list is empty.
-    * 2a1. Athena informs the user that their search did not come up with any valid matches.
-    
-       Use case ends.
 
 **Use case: Add an event**
 
@@ -366,15 +334,15 @@ Preconditions: The contact the user wishes to edit is displayed on the UI.
 
 **Extensions**
 
-* 2a. The description and/or date time is missing.
+* 1a. The description and/or date time is missing.
 
-    * 2a1. Athena shows an error message.
+    * 2a1. AddressBook shows an error message.
     
       Use case ends.
       
-* 3a. The date time format is not accepted.
+* 1a. The date time format is not accepted.
 
-    * 3a1. Athena shows an error message.
+    * 3a1. AddressBook shows an error message.
         
       Use case ends.
           
@@ -383,9 +351,9 @@ Preconditions: The contact the user wishes to edit is displayed on the UI.
 **MSS**
 
 1.  User requests to view events
-2.  Athena shows a list of events
+2.  AddressBook shows a list of events
 3.  User requests to delete a specific event in the list
-4.  Athena deletes the event
+4.  AddressBook deletes the event
 
     Use case ends.
 
@@ -397,7 +365,7 @@ Preconditions: The contact the user wishes to edit is displayed on the UI.
 
 * 3a. The given index is invalid.
 
-    * 3a1. Athena shows an error message.
+    * 3a1. AddressBook shows an error message.
 
       Use case resumes at step 2.
       
@@ -406,9 +374,9 @@ Preconditions: The contact the user wishes to edit is displayed on the UI.
 **MSS**
 
 1.  User requests to view events
-2.  Athena shows a list of events
+2.  AddressBook shows a list of events
 3.  User requests to edit a specific event in the list
-4.  Athena edits the event
+4.  AddressBook edits the event
 
     Use case ends.
 
@@ -420,22 +388,22 @@ Preconditions: The contact the user wishes to edit is displayed on the UI.
 
 * 3a. The given index is invalid.
 
-    * 3a1. Athena shows an error message.
+    * 3a1. AddressBook shows an error message.
 
       Use case resumes at step 2.
       
 * 4a. The persons to be added or removed is not found.
 
-    * 4a1. Athena shows an error message.
+    * 4a1. AddressBook shows an error message.
 
       Use case resumes at step 2.
 
-#### **Use case: search for events**
+**Use case: search for events**
 
 **MSS**
 
 1.  User requests to search for a particular event 
-2.  Athena shows a list of events that match the criteria (e.g. contain a certain keyword) 
+2.  AddressBook shows a list of events that match the criteria (e.g. contain a certain keyword) 
 
     Use case ends.
 
@@ -447,16 +415,16 @@ Preconditions: The contact the user wishes to edit is displayed on the UI.
 
 * 3a. The given keyword is invalid.
 
-    * 3a1. Athena shows an error message.
+    * 3a1. AddressBook shows an error message.
 
       Use case resumes at step 2.
       
-#### **Use case: view all saved events**
+**Use case: view events**
 
 **MSS**
 
 1.  User requests to view all events recorded 
-2.  Athena shows a list of events  
+2.  AddressBook shows a list of events  
 
     Use case ends.
 
@@ -469,18 +437,15 @@ Preconditions: The contact the user wishes to edit is displayed on the UI.
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `11` or above installed.
-1.  Should be able to hold up to 1000 contacts and events without a noticeable sluggishness in performance for typical usage.
-1.  Should be sufficiently intuitive for new or inexperienced users to understand and navigate.
-1.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-1.  Should not require an internet connection (bar downloading the app)
+2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 
 *{More to be added}*
 
 ### Glossary
 
-* **Contact**: A person to be tracked by Athena; comprises a name, phone number, email and address, as well as an arbitrary quantity of tags
-* **Event**: An event to be tracked by Athena; comprises a name and a date and time, as well as an arbitrary quantity of tags
-* **Mainstream OS**: Windows, Linux, Unix, OS-X 
+* **Mainstream OS**: Windows, Linux, Unix, OS-X
+* **Private contact detail**: A contact detail that is not meant to be shared with others
 
 --------------------------------------------------------------------------------------------------------------------
 
