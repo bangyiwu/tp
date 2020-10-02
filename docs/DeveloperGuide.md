@@ -271,6 +271,31 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Use cases
 
 (For all use cases below, the **System** is the `Athena` and the **Actor** is the `user`, unless specified otherwise)
+
+**Use case: Add a contact**
+
+**MSS**
+
+1.  User requests to add a contact
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. User input missing one or multiple fields
+    * 2a1. Athena shows an error message.
+
+  Use case ends.
+**Use case: Delete a contact**
+
+**MSS**
+
+1.  User requests to list contacts
+Athena shows a list of contacts
+3.  User requests to delete a specific contact in the list
+4.  Athena deletes the contact
+
+    Use case ends.
       
 **Use case: Sort through contacts**
 
