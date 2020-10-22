@@ -223,13 +223,26 @@ The following activity diagram summarizes what happens when a user executes a ne
 * **Alternative 2:** Individual command knows how to undo/redo by
   itself.
   * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-  * Cons: We must ensure that the implementation of each individual command are correct.
+  * Cons: We must ensure that the implementation o=-f each individual command are correct.
 
 _{more aspects and alternatives to be added}_
 
-### \[Proposed\] Data archiving
+### Sort contacts feature
 
-_{Explain here how the data archiving feature will be implemented}_
+Implementation
+
+The implemented sorting of contacts mechanism is facilitated by SortContactCommand. It extends Command.
+
+SortContactCommand#execute() : Does validity check of input and then sorts the contact according to user input
+
+These operations are exposed in the Command interface as Command#execute(). The following sequence diagram shows
+how the sorting operation works.
+
+Design consideration:
+The sorting function should not modify the addressbook permanently, it should just create a temporary display. This is 
+such that users can go back to the original sorting by date added easily. It also makes undoing a sort easier. If the
+user wishes to sort the address book permanently, we are implementing a permanent sort function as well. 
+
 
 
 --------------------------------------------------------------------------------------------------------------------
