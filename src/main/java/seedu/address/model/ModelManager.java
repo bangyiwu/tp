@@ -286,8 +286,8 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void deletePersonsByTagRecursive(Tag tag) {
-        contactTagIntegrationManager.deleteTagAndDirectContactsRecursive(tag);
+    public void deletePersonsByTag(Tag tag) {
+        contactTagIntegrationManager.deleteTagAndDirectContacts(tag);
     }
 
     // Filter/sort related methods

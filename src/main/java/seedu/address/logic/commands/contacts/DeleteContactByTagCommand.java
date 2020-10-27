@@ -45,7 +45,7 @@ public class DeleteContactByTagCommand extends Command {
         if (!isValidTag(model, tagForDeletion)) {
             throw new CommandException(MESSAGE_NON_EXISTENT_TAG);
         }
-        model.deletePersonsByTagRecursive(tagForDeletion);
+        model.deletePersonsByTag(tagForDeletion);
         return new CommandResult(MESSAGE_DELETE_PERSON_SUCCESS + tagForDeletion.tagName );
     }
 

@@ -200,7 +200,7 @@ public class ModelStub implements Model {
     }
 
     @Override
-    public void deletePersonsByTagRecursive(Tag tag) {
+    public void deletePersonsByTag(Tag tag) {
         throw new AssertionError("This method should not be called.");
     }
 
