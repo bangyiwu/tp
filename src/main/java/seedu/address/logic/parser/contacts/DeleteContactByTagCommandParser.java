@@ -17,6 +17,7 @@ public class DeleteContactByTagCommandParser implements Parser<DeleteContactByTa
      * @throws ParseException if the user input does not conform the expected format
      */
     public DeleteContactByTagCommand parse(String args) {
+        assert Tag.isValidTagName(args.trim()) : "User input is not a valid tag name";
         Tag tagForDeletion = new Tag(args.trim());
         return new DeleteContactByTagCommand(tagForDeletion);
     }

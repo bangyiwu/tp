@@ -42,7 +42,11 @@ public class DeleteContactByTagCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        if (! isValidTag(model, tagForDeletion)) {
+            throw new CommandException("The tag you have entered does not exist in our database.");
+        }
         deleteByRecursion(model);
+
         return new CommandResult(MESSAGE_DELETE_PERSON_SUCCESS + tagForDeletion.tagName );
     }
 
@@ -56,6 +60,13 @@ public class DeleteContactByTagCommand extends Command {
             model.deletePerson(personIterator.next());
             deleteByRecursion(model);
         }
+    }
+
+    /**
+     * Checks if this tag exists.
+     */
+    private static boolean isValidTag(Model model, Tag tag) {
+        return model.getPersonTags().contains(tag) || model.getSuperTags().contains(tag);
     }
     @Override
     public boolean equals(Object other) {
