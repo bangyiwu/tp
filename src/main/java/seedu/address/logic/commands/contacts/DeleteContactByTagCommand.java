@@ -42,7 +42,7 @@ public class DeleteContactByTagCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        if (! isValidTag(model, tagForDeletion)) {
+        if (!isValidTag(model, tagForDeletion)) {
             throw new CommandException("The tag you have entered does not exist in our database.");
         }
         deleteByRecursion(model);
