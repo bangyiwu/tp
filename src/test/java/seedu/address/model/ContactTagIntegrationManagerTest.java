@@ -70,14 +70,6 @@ public class ContactTagIntegrationManagerTest {
         assertTrue(buildTestContactTagIntegrationManager().getAllPersonsUnderTag(TAG_CS2040S_NOT_TREE).isEmpty());
     }
 
-    @Test
-    public void editSubTagsOf_validTags_success() {
-        ContactTagIntegrationManager manager = buildTestContactTagIntegrationManager();
-        manager.editSubTagsOf(TAG_COMPUTING, Set.of(TAG_CS2040S_NOT_TREE), Set.of(TAG_SCIENCE_COMP));
-        manager.getAddressBook().addPerson(PERSON_CS2040S_NOT_IN);
-        Set<Person> expectedSet = Set.of(PERSON_COMPUTING, PERSON_COMPUTING_SCIENCE, PERSON_CS2040S_NOT_IN);
-        assertEquals(expectedSet, manager.getAllPersonsUnderTag(TAG_COMPUTING));
-    }
 
     @Test
     public void deleteTag_validTag_success() {

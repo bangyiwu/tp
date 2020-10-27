@@ -34,6 +34,11 @@ public class TagManagerImpl implements TagManager {
         return tagPersonSetMap.keySet();
     }
 
+    @Override
+    public boolean hasTag(Tag tag) {
+        return tagPersonSetMap.containsKey(tag);
+    }
+
     /**
      * Removes all references in {@code tagPersonSetMap} to this {@code person} based on the {@code tag}s it has.
      */

@@ -27,6 +27,11 @@ public interface TagManager {
     Set<Tag> getTags();
 
     /**
+     * Returns true if {@code tag} is found with at least one contact under it.
+     */
+    boolean hasTag(Tag tag);
+
+    /**
      * Updates the current tag references in the tag manager.
      * Removes all references to the {@code oldPerson} and adds new references to the {@code newPerson}.
      *

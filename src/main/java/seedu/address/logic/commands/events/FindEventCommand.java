@@ -46,4 +46,9 @@ public class FindEventCommand extends Command {
                 || (other instanceof FindEventCommand // instanceof handles nulls
                 && predicate.equals(((FindEventCommand) other).predicate)); // state check
     }
+
+    public DescriptionContainsKeywordsPredicate getPredicate() {
+        return predicate;
+    }
+
 }

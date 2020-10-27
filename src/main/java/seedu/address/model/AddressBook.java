@@ -3,6 +3,7 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -84,12 +85,34 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Returns true if the {@code tag} can be found in the tagManager.
+     */
+    public boolean hasTag(Tag tag) {
+        requireNonNull(tag);
+        return tagManager.hasTag(tag);
+    }
+
+    /**
      * Adds a person to the address book.
      * The person must not already exist in the address book.
      */
     public void addPerson(Person p) {
         persons.add(p);
         tagManager.addNewPersonTags(p);
+    }
+
+    /**
+     * Adds a {@code tag} to the designated {@code person}.
+     */
+    public void addPersonToTag(Tag tag, Person person) {
+        Set<Tag> newTagSet = new HashSet<>(person.getTags());
+        newTagSet.add(tag);
+        Person editedPerson = new Person(person.getName(),
+                person.getPhone(),
+                person.getEmail(),
+                person.getAddress(),
+                newTagSet);
+        setPerson(person, editedPerson);
     }
 
     /**

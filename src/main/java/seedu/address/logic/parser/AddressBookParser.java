@@ -33,6 +33,7 @@ import seedu.address.logic.parser.events.FindEventCommandParser;
 import seedu.address.logic.parser.events.RemindEventCommandParser;
 import seedu.address.logic.parser.events.SortEventCommandParser;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.parser.tags.AddTagCommandParser;
 import seedu.address.logic.parser.tags.ViewTagCommandParser;
 
 /**
@@ -141,6 +142,9 @@ public class AddressBookParser {
         case TAG:
 
             switch (commandWord) {
+
+            case ADD:
+                return new AddTagCommandParser().parse(arguments);
 
             case LIST:
                 return new ListTagCommand();

@@ -29,7 +29,7 @@ public class Event {
     }
 
     /**
-     * Returns true if both events of the have the same description
+     * Returns true if both events have the same description
      */
     public boolean isSameEvent(Event otherEvent) {
         if (otherEvent == this) {
@@ -37,8 +37,7 @@ public class Event {
         }
 
         return otherEvent != null
-                && otherEvent.getDescription().equals(getDescription())
-                && otherEvent.getTime().equals(getTime());
+                && otherEvent.getDescription().equals(getDescription());
     }
 
     @Override

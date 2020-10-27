@@ -107,6 +107,11 @@ public interface Model {
     boolean hasEvent(Event event);
 
     /**
+     * Returns true if the {@code tag} exists with at least one sub-tag and/or person assigned to it.
+     */
+    boolean hasTag(Tag tag);
+
+    /**
      * Deletes the given person.
      * The person must exist in the address book.
      */
@@ -128,6 +133,17 @@ public interface Model {
      * Adds the given person.
      */
     void addEvent(Event event);
+
+    /**
+     * Adds {@code person} to {@code tag}.
+     * {@code person} will also reflect this change with a new {@code tag}.
+     */
+    void addPersonToTag(Tag tag, Person person);
+
+    /**
+     * Adds {@code subTag} as a sub-tag of {@code superTag}.
+     */
+    void addSubTagTo(Tag superTag, Tag subTag);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.

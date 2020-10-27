@@ -3,24 +3,23 @@ package seedu.address.logic.commands.events;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.Comparator;
-
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.CommandType;
 import seedu.address.logic.commands.CommandWord;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.comparators.EventComparator;
 import seedu.address.model.Model;
-import seedu.address.model.event.Event;
 
 /**
- * Sorts the currently displayed persons in a specific order.
+ * Sorts the currently displayed events in a specific order.
  * Index entered determines the specific order.
  */
 public class SortEventCommand extends Command {
 
     public static final String COMMAND_WORD = CommandWord.SORT.toString();
+
     public static final String COMMAND_TYPE = CommandType.EVENT.toString();
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + " " + COMMAND_TYPE
@@ -33,24 +32,10 @@ public class SortEventCommand extends Command {
 
     public static final String MESSAGE_ARGUMENTS = "Index: %1$d";
 
-    private static final Comparator<Event> DESCRIPTION_COMPARATOR = new Comparator<Event>() {
-        @Override
-        public int compare(Event o1, Event o2) {
-            return o1.getDescription().fullDescription.compareToIgnoreCase(o2.getDescription().fullDescription);
-        }
-    };
-
-    private static final Comparator<Event> TIME_COMPARATOR = new Comparator<Event>() {
-        @Override
-        public int compare(Event o1, Event o2) {
-            return o1.getTime().time.compareTo(o2.getTime().time);
-        }
-    };
-
     private final Index index;
 
     /**
-     * @param index the order in which to sort the address book
+     * @param index the order in which to sort the event entries in Athena.
      */
     public SortEventCommand(Index index) {
         requireAllNonNull(index);
@@ -60,7 +45,7 @@ public class SortEventCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        model.sortEvent(chooseComparator(index));
+        model.sortEvent(EventComparator.chooseComparator(index));
 
         return new CommandResult(indexMessage(index));
     }
@@ -78,19 +63,6 @@ public class SortEventCommand extends Command {
         default:
             return "Invalid index entered, refer to below for the command's proper usage: "
                     + MESSAGE_USAGE;
-        }
-    }
-
-    /**
-     * Returns the appropriate comparator for the model manager to sort with
-     */
-    public Comparator<Event> chooseComparator(Index index) {
-        int input = index.getOneBased();
-        switch (input) {
-        case 2:
-            return TIME_COMPARATOR;
-        default:
-            return DESCRIPTION_COMPARATOR;
         }
     }
 

@@ -16,11 +16,16 @@ import java.util.List;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.contacts.EditContactCommand;
+import seedu.address.logic.commands.events.EditEventCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
+import seedu.address.model.Calendar;
 import seedu.address.model.Model;
+import seedu.address.model.event.DescriptionContainsKeywordsPredicate;
+import seedu.address.model.event.Event;
 import seedu.address.model.person.ContactContainsFieldsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.testutil.EditEventDescriptorBuilder;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 /**
@@ -39,6 +44,12 @@ public class CommandTestUtil {
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
     public static final String VALID_TAG_MODULE = "CS2103";
+
+    public static final String VALID_DESCRIPTION_LUNCH = "Lunch with Friends";
+    public static final String VALID_DESCRIPTION_BREAKFAST = "Breakfast with Mum";
+    public static final String VALID_TIME_LUNCH = "10-10-2020 13:00";
+    public static final String VALID_TIME_BREAKFAST = "15-12-2020 09:00";
+
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -73,6 +84,16 @@ public class CommandTestUtil {
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
                 .withTagsToAdd(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+    }
+
+    public static final EditEventCommand.EditEventDescriptor DESC_LUNCH;
+    public static final EditEventCommand.EditEventDescriptor DESC_BREAKFAST;
+
+    static {
+        DESC_LUNCH = new EditEventDescriptorBuilder().withDescription(VALID_DESCRIPTION_LUNCH)
+                .withTime(VALID_TIME_LUNCH).build();
+        DESC_BREAKFAST = new EditEventDescriptorBuilder().withDescription(VALID_DESCRIPTION_BREAKFAST)
+                .withTime(VALID_TIME_BREAKFAST).build();
     }
 
     /**
@@ -111,11 +132,28 @@ public class CommandTestUtil {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         AddressBook expectedAddressBook = new AddressBook(actualModel.getAddressBook());
-        List<Person> expectedFilteredList = new ArrayList<>(actualModel.getSortedFilteredPersonList());
+        List<Person> expectedFilteredContactList = new ArrayList<>(actualModel.getSortedFilteredPersonList());
 
         assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedAddressBook, actualModel.getAddressBook());
-        assertEquals(expectedFilteredList, actualModel.getSortedFilteredPersonList());
+        assertEquals(expectedFilteredContactList, actualModel.getSortedFilteredPersonList());
+    }
+
+    /**
+     * Executes the given {@code command}, confirms that <br>
+     * - a {@code CommandException} is thrown <br>
+     * - the CommandException message matches {@code expectedMessage} <br>
+     * - the calendar, filtered event list and selected event in {@code actualModel} remain unchanged
+     */
+    public static void assertCommandFailureEvent(Command command, Model actualModel, String expectedMessage) {
+        // we are unable to defensively copy the model for comparison later, so we can
+        // only do so by copying its components.
+        Calendar expectedCalendar = new Calendar(actualModel.getCalendar());
+        List<Event> expectedFilteredEventList = new ArrayList<>(actualModel.getSortedFilteredEventList());
+
+        assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
+        assertEquals(expectedCalendar, actualModel.getCalendar());
+        assertEquals(expectedFilteredEventList, actualModel.getSortedFilteredEventList());
     }
     /**
      * Updates {@code model}'s filtered list to show only the person at the given {@code targetIndex} in the
@@ -131,6 +169,22 @@ public class CommandTestUtil {
         model.updateFilteredPersonList(predicate);
 
         assertEquals(1, model.getSortedFilteredPersonList().size());
+    }
+
+    /**
+     * Updates {@code model}'s filtered list to show only the event at the given {@code targetIndex} in the
+     * {@code model}'s address book.
+     */
+    public static void showEventAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getSortedFilteredEventList().size());
+
+        Event event = model.getSortedFilteredEventList().get(targetIndex.getZeroBased());
+        final String[] splitDescription = event.getDescription().fullDescription.split("\\s+");
+        DescriptionContainsKeywordsPredicate predicate = new DescriptionContainsKeywordsPredicate();
+        predicate.setKeywords(Arrays.asList(splitDescription[0]));
+        model.updateFilteredEventList(predicate);
+
+        assertEquals(1, model.getSortedFilteredEventList().size());
     }
 
 }

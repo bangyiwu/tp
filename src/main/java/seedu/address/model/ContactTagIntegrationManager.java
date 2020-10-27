@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import seedu.address.model.person.Person;
-import seedu.address.model.tag.ReadOnlyTagTree;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.TagTree;
 import seedu.address.model.tag.TagTreeImpl;
@@ -29,9 +28,9 @@ public class ContactTagIntegrationManager {
     /**
      * Creates a ContactTagIntegrationManager from the given {@code addressBook} and {@code tagTree}.
      */
-    public ContactTagIntegrationManager(AddressBook addressBook, ReadOnlyTagTree tagTree) {
-        this(addressBook);
-        this.tagTree.copy(tagTree);
+    public ContactTagIntegrationManager(AddressBook addressBook, TagTree tagTree) {
+        this.addressBook = addressBook;
+        this.tagTree = tagTree;
     }
 
     public AddressBook getAddressBook() {
@@ -40,6 +39,14 @@ public class ContactTagIntegrationManager {
 
     public TagTree getTagTree() {
         return tagTree;
+    }
+
+    /**
+     * Returns true if either the addressBook has {@code tag} or the tagTree has {@code tag}.
+     * For a tag to exist, it must have at least one contact with the tag OR at least one child-tag assigned to it.
+     */
+    public boolean hasTag(Tag tag) {
+        return addressBook.hasTag(tag) || tagTree.hasTag(tag);
     }
 
     /**
@@ -64,19 +71,6 @@ public class ContactTagIntegrationManager {
         return finalSet;
     }
 
-    /**
-     * Edits the sub-tags of a given {@code supertag}.
-     * If a sub-tag to add is already present, no change will be performed.
-     * If a sub-tag to be removed is not present, no change will be performed.
-     *
-     * @param superTag {@code tag} for which the sub-tags will be edited.
-     * @param subTagsToAdd Set of sub-{@code tag}s to be added.
-     * @param subTagsToRemove Set of sub-{@code tag}s to be removed.
-     */
-    public void editSubTagsOf(Tag superTag, Set<Tag> subTagsToAdd, Set<Tag> subTagsToRemove) {
-        tagTree.removeSubTagsFrom(superTag, subTagsToRemove);
-        tagTree.addSubTagsTo(superTag, subTagsToAdd);
-    }
 
     /**
      * Deletes a {@code tag} from the existing tag tree.
