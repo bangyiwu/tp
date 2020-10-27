@@ -32,6 +32,9 @@ public class DeleteContactByTagCommand extends Command {
 
     private final Tag tagForDeletion;
 
+    /**
+     * @param tagForDeletion contacts with this user-input tag will be deleted.
+     */
     public DeleteContactByTagCommand(Tag tagForDeletion) {
         this.tagForDeletion = tagForDeletion;
     }
@@ -43,10 +46,13 @@ public class DeleteContactByTagCommand extends Command {
         return new CommandResult(MESSAGE_DELETE_PERSON_SUCCESS + tagForDeletion.tagName );
     }
 
+    /**
+     * Model deletes persons with the user-input tag recursively to prevent concurrent modification exception.
+     */
     public void deleteByRecursion(Model model) {
         Set<Person> personsToDelete = model.getPersonsWithTag(tagForDeletion);
         Iterator<Person> personIterator = personsToDelete.iterator();
-        if(personIterator.hasNext()){
+        if (personIterator.hasNext()) {
             model.deletePerson(personIterator.next());
             deleteByRecursion(model);
         }
@@ -54,7 +60,7 @@ public class DeleteContactByTagCommand extends Command {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof seedu.address.logic.commands.contacts.DeleteContactByTagCommand // instanceof handles nulls
+                || (other instanceof seedu.address.logic.commands.contacts.DeleteContactByTagCommand
                 && tagForDeletion.equals(((seedu.address.logic.commands.contacts.DeleteContactByTagCommand) other)
                 .tagForDeletion)); // state check
     }
