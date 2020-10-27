@@ -29,7 +29,7 @@ public class DeleteContactByTagCommand extends Command {
             + "Example: " + COMMAND_WORD + " " + COMMAND_TYPE + "classmates";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted contacts tagged under: ";
-
+    public static final String MESSAGE_NON_EXISTENT_TAG = "The tag you have entered does not exist in our database.";
     private final Tag tagForDeletion;
 
     /**
@@ -43,7 +43,7 @@ public class DeleteContactByTagCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         if (!isValidTag(model, tagForDeletion)) {
-            throw new CommandException("The tag you have entered does not exist in our database.");
+            throw new CommandException(MESSAGE_NON_EXISTENT_TAG);
         }
         deleteByRecursion(model);
 
