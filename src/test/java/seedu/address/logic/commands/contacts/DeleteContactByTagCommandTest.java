@@ -3,13 +3,12 @@ package seedu.address.logic.commands.contacts;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.Calendar;
+import seedu.address.commons.core.index.Index;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -35,10 +34,12 @@ public class DeleteContactByTagCommandTest {
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(),
                 new Calendar(), new TagTreeImpl(), new UserPrefs());
-        Person personToDelete = model.getSortedFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Person secondPersonToDelete = model.getSortedFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
+        Person personToDelete = model.getSortedFilteredPersonList().get(0);
+        Person secondPersonToDelete = model.getSortedFilteredPersonList().get(1);
+        Person thirdPersonToDelete = model.getSortedFilteredPersonList().get(3);
         expectedModel.deletePerson(personToDelete);
         expectedModel.deletePerson(secondPersonToDelete);
+        expectedModel.deletePerson(thirdPersonToDelete);
 
         assertCommandSuccess(deleteContactByTagCommand, model, expectedMessage, expectedModel);
     }
