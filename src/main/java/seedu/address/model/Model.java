@@ -183,6 +183,12 @@ public interface Model {
      */
     Set<Person> getPersonsRecursive(Tag tag);
 
+    /**
+     * Deletes all persons under the specified tag and any of the tags below
+     * I.e. Delete all persons with either {@code tag}, and/or any of its sub-tags, sub-tag of sub-tags, etc.
+     */
+    void deletePersonsByTagRecursive(Tag tag);
+
     // Filter/sort-list methods
 
     /**

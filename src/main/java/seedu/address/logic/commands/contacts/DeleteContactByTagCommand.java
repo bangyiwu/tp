@@ -45,22 +45,10 @@ public class DeleteContactByTagCommand extends Command {
         if (!isValidTag(model, tagForDeletion)) {
             throw new CommandException(MESSAGE_NON_EXISTENT_TAG);
         }
-        deleteByRecursion(model);
-
+        model.deletePersonsByTagRecursive(tagForDeletion);
         return new CommandResult(MESSAGE_DELETE_PERSON_SUCCESS + tagForDeletion.tagName );
     }
 
-    /**
-     * Model deletes persons with the user-input tag recursively to prevent concurrent modification exception.
-     */
-    public void deleteByRecursion(Model model) {
-        Set<Person> personsToDelete = model.getPersonsWithTag(tagForDeletion);
-        Iterator<Person> personIterator = personsToDelete.iterator();
-        if (personIterator.hasNext()) {
-            model.deletePerson(personIterator.next());
-            deleteByRecursion(model);
-        }
-    }
 
     /**
      * Checks if this tag exists.

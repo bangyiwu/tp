@@ -269,6 +269,11 @@ public class ModelManager implements Model {
         return contactTagIntegrationManager.getAllPersonsUnderTag(tag);
     }
 
+    @Override
+    public void deletePersonsByTagRecursive(Tag tag) {
+        contactTagIntegrationManager.deleteTagAndDirectContactsRecursive(tag);
+    }
+
     // Filter/sort related methods
 
     @Override
