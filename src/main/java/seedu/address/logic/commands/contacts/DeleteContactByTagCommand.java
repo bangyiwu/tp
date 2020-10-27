@@ -25,8 +25,8 @@ public class DeleteContactByTagCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + " " + COMMAND_TYPE
             + ": Deletes all contacts with the user\n\n"
-            + "Parameters: INDEX (must be a positive integer)\n\n"
-            + "Example: " + COMMAND_WORD + " " + COMMAND_TYPE + " 1";
+            + "Parameters: tagForDeletion must be a valid tag\n\n"
+            + "Example: " + COMMAND_WORD + " " + COMMAND_TYPE + "classmates";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted contacts tagged under: ";
 
