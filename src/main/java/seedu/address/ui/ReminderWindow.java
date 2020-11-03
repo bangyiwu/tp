@@ -82,10 +82,11 @@ public class ReminderWindow extends UiPart<Stage> {
         if (reminders.size() == 0) {
             return "You currently do not have any reminders";
         } else {
+            int counter = 1;
             for (Reminder r: reminders) {
                 if (r.getReminderDate().getTime().toLocalDate().isBefore(LocalDate.now())
                         || r.getReminderDate().getTime().toLocalDate().isEqual(LocalDate.now())) {
-                    alertMessage += r.toString() + "\n";
+                    alertMessage += counter + ") " + r.toString() + "\n";
                 }
             }
         }
