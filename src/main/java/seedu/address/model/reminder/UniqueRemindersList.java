@@ -128,7 +128,7 @@ public class UniqueRemindersList implements Iterable<Reminder> {
      * Returns true if {@code reminders} contains only unique reminders.
      */
     private boolean remindersAreUnique(List<Reminder> reminders) {
-        for (int i = 0; i < reminders.size() - 1; i++) {
+        for (int i = 0; i < reminders.size(); i++) {
             for (int j = i + 1; j < reminders.size(); j++) {
                 if (reminders.get(i).isSameReminder(reminders.get(j))) {
                     return false;
