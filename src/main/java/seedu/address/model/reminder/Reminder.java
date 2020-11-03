@@ -68,7 +68,10 @@ public class Reminder {
 
     @Override
     public String toString() {
-        return eventToRemind.toString() + " in " + countdownFromNow() + " days";
+        return eventToRemind.getDescription().toString() + " in " + countdownFromNow() + " days "
+                + "(Reminds " + ChronoUnit.DAYS.between(reminderDate.getTime().toLocalDate(),
+                eventToRemind.getTime().time.toLocalDate())
+                + " days in advance)";
     }
 
 }
